@@ -4,13 +4,16 @@
  * User: xiejun
  * Time: 16/1/4 11:04
  */
+require_once "city.php";
 
 class weixinCallbackApi
 {
 #    public $joke;
+//    public $city;
 
     public function __construct() {
 #        $this->joke = new joke();
+//        $this->city = new city();
     }
 
     //验证用的，现在没用了 -_-\\
@@ -122,9 +125,10 @@ class weixinCallbackApi
             return '城市名称不能为空，请输入城市名称! ';
         }
         // $city_num = 101010100;
-        $url = 'http://m.weather.com.cn/data/'.$this->_getCityNum($content).'.html';
-        if (!$this->_getCityNum($content)) {
+        if (!city::getCityByName($content)) {
             return '您输入的城市名称找不到啊，现在我还比较笨，请重新输入吧：如【TQ上海】';
+        }else{
+            $url = 'http://m.weather.com.cn/data/'.city::getCityByName($content).'.html';
         }
         $s = file_get_contents($url);
         $arrayMsg = json_decode($s, true);

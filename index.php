@@ -6,7 +6,7 @@
  */
 
 require_once 'config.php';
-require_once 'city.php';
+//require_once 'city.php';
 require_once 'WeixinCallbackApi.php';
 //require_once 'config.php';
 
