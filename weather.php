@@ -31,8 +31,16 @@ class weather{
         $result = json_decode($result_json,true);
         if($result['status'] == 'success'){//status
             $data = '';
-            foreach($result['results'][0]['weather_data'] as $v){
-                $data .= $v['date'].'('.$v['weather'].','.$v['wind'].','.$v['temperature'].")\n";
+            foreach($result['results'][0]['weather_data'] as $k => $v){
+                $data .= $v['date'].'['.$v['weather'].','.$v['wind'].','.$v['temperature']."]";
+                if(count($result['results'][0]['weather_data']) < $k-1){
+                    if($k == 0){
+                        $data .= "\n------------------------\n";
+                    }else{
+                        $data .= "\n";
+                    }
+                }
+
             }
             return $data;
         }else{
