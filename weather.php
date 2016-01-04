@@ -29,10 +29,10 @@ class weather{
         $url = "http://api.map.baidu.com/telematics/v3/weather?location=".urlencode($city_name)."&output=json&ak=XPvM6T3HCDSoM5pFC2rwhnqt";
         $result_json = file_get_contents($url);
         $result = json_decode($result_json,true);
-        if($result['status'] == 'success'){
+        if($result['status'] == 'success'){//status
             $data = '';
-            foreach($result['results']['weather_data'] as $v){
-                $data .= $v['date'].'('.$v['weather'].','.$v['wind'].','.$v['temperature'].')'."\n";
+            foreach($result['results'][0]['weather_data'] as $v){
+                $data .= $v['date'].'('.$v['weather'].','.$v['wind'].','.$v['temperature'].")\n";
             }
             return $data;
         }else{
@@ -102,6 +102,6 @@ class weather{
 }
 
 //$test = new weather();
-//$xxx = $test->getWather('上海');
-//error_log(print_r($xxx,1),3,'./log.log');
+//$xxx = $test->getWeather('上海');
+////error_log(print_r($xxx,1),3,'./log.log');
 //var_dump($xxx);
