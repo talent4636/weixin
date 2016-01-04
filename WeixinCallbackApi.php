@@ -105,7 +105,9 @@ class weixinCallbackApi
             // $answerMsg = '你想翻译的内容是：'.$content;
             break;
             case 'TQ':case 'tq':
-            $answerMsg = $this->getTQYB($content);
+                          $weather = new weather();
+                          $answerMsg = $weather->getWeather($content);
+//            $answerMsg = $this->getTQYB($content);
             // $answerMsg = '你想查看天气预报的城市是：'.$content;
             break;
             //            case 'XH':case 'xh':
