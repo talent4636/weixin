@@ -33,7 +33,7 @@ class weather{
             $data = '';
             foreach($result['results'][0]['weather_data'] as $k => $v){
                 $data .= $v['date'].'['.$v['weather'].','.$v['wind'].','.$v['temperature']."]";
-                if(count($result['results'][0]['weather_data']) < $k-1){
+                if(count($result['results'][0]['weather_data']) > $k-1){
                     if($k == 0){
                         $data .= "\n------------------------\n";
                     }else{
