@@ -22,3 +22,9 @@ define('WEATHER_URL_END', '.html');
 //weather url [from wthrcdn.etouch.cn]
 define('WEATHER_URL_WITH_NAME','http://wthrcdn.etouch.cn/weather_mini?city=');
 define('WEATHER_URL_WITH_NO','http://wthrcdn.etouch.cn/weather_mini?citykey=');
+
+//database config  -- mysql
+define('DB_HOST', '127.0.0.1');
+define('DB_NAME', 'test');
+define('DB_USER', 'root');
+define('DB_PASSWORD', '123456');
