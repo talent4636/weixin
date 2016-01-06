@@ -9,13 +9,8 @@ require_once "model.php";
 
 class weixinCallbackApi
 {
-#    public $joke;
-//    public $city;
-
-    public function __construct() {
-#        $this->joke = new joke();
-//        $this->city = new city();
-    }
+//    public function __construct() {
+//    }
 
     //验证用的，现在没用了 -_-\\
     public function valid()
@@ -120,27 +115,6 @@ class weixinCallbackApi
         return $answerMsg;
     }
 
-    //拼接返回值的函数
-//    public function getTQYB($content){
-//        // $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-//        if ($content=='') {
-//            return '城市名称不能为空，请输入城市名称! ';
-//        }
-//        // $city_num = 101010100;
-//        if (!city::getCityByName($content)) {
-//            return '您输入的城市名称找不到啊，现在我还比较笨，请重新输入吧：如【TQ上海】';
-//        }else{
-//            $url = 'http://m.weather.com.cn/data/'.city::getCityByName($content).'.html';
-//        }
-//        $s = file_get_contents($url);
-//        $arrayMsg = json_decode($s, true);
-//        return $arrayMsg['weatherinfo']['city'].
-//        '【今天】'.$arrayMsg['weatherinfo']['weather1'].'，温度：'.$arrayMsg['weatherinfo']['temp1'].','.$arrayMsg['weatherinfo']['wind1'].
-//        '。未来三天预报：【明天】'.$arrayMsg['weatherinfo']['weather2'].'，温度：'.$arrayMsg['weatherinfo']['temp2'].','.$arrayMsg['weatherinfo']['wind2'].
-//        '【后天】'.$arrayMsg['weatherinfo']['weather3'].'，温度：'.$arrayMsg['weatherinfo']['temp3'].','.$arrayMsg['weatherinfo']['wind3'].
-//        '【大后天】'.$arrayMsg['weatherinfo']['weather4'].'，温度：'.$arrayMsg['weatherinfo']['temp4'].','.$arrayMsg['weatherinfo']['wind4'];
-//    }
-
     public function getFY($content){
         $url = 'http://openapi.baidu.com/public/2.0/bmt/translate?client_id=ep6NCmBSGLSIOVCHfwEnAxjD&q='.$content.'&from=auto&to=auto';
         $answerMsgArr = get_object_vars(json_decode(file_get_contents($url)));
@@ -152,9 +126,13 @@ class weixinCallbackApi
     public function getJoke(){
         $mdlJoke = new db();
         $jokeInfo = $mdlJoke->getRow();
-        $answerMsg = "[{$jokeInfo['joke_type']}]".$jokeInfo['joke_content'];
+        $answerMsg = "[{$jokeInfo['joke_type']}]".iconv("GB2312","UTF-8",$jokeInfo['joke_content']);
         return $answerMsg;
     }
 
 
 }
+
+//test case
+//$xx = new weixinCallbackApi();
+//print_r($xx->getJoke());

@@ -16,9 +16,9 @@ class db{
             die('something wrong with mysql');
         }else {
             $this->connect = $conn;
-            mysql_query("SET NAMES UTF8");
-            mysql_query("set character_set_client=utf8");
-            mysql_query("set character_set_results=utf8");
+            mysql_query("SET NAMES GB2312");
+            mysql_query("set character_set_client=gb2312");
+            mysql_query("set character_set_results=gb2312");
         }
     }
 
