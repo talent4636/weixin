@@ -12,8 +12,8 @@ class db{
 
     public function __construct(){
         $conn = @mysql_connect(DB_HOST, DB_USER, DB_PASSWORD);
-        if (!$conn){
-            return 'something wrong with mysql';
+        if (!@mysql_connect(DB_HOST, DB_USER, DB_PASSWORD)){
+            die('something wrong with mysql');
         }else {
             $this->connect = $conn;
             mysql_query("SET NAMES UTF8");
@@ -64,6 +64,10 @@ class db{
             unset($row);
         }
         mysql_free_result($sql_result);
+        if($data[0]['joke_type']){
+            $typeArr = $this->getType($data[0]['joke_type']);
+            $data[0]['joke_type'] = $typeArr['name'];
+        }
         return $data[0];
 
     }
@@ -110,6 +114,6 @@ class db{
 }
 
 //调试代码
-//$db = new db();
-//$row = $db->getRowByType(5);
-//print_r($row);
+$db = new db();
+$row = $db->getRow();
+print_r($row);

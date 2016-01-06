@@ -25,6 +25,6 @@ define('WEATHER_URL_WITH_NO','http://wthrcdn.etouch.cn/weather_mini?citykey=');
 
 //database config  -- mysql
 define('DB_HOST', '127.0.0.1');
-define('DB_NAME', 'test');
+define('DB_NAME', 'weixin');
 define('DB_USER', 'root');
-define('DB_PASSWORD', '123456');
+define('DB_PASSWORD', 'passw0rd');

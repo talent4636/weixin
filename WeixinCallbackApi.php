@@ -5,6 +5,7 @@
  * Time: 16/1/4 11:04
  */
 require_once "city.php";
+require_once "model.php";
 
 class weixinCallbackApi
 {
@@ -94,8 +95,7 @@ class weixinCallbackApi
          */
         $keyword = trim($keyword);
         if ($keyword == '笑话'){
-            $answerMsg = $this->getJoke();
-            return $answerMsg;
+            return $this->getJoke();
         }
         $keyMethod = substr($keyword, 0,2);
         $content = trim(substr($keyword, 2));
@@ -105,41 +105,41 @@ class weixinCallbackApi
             // $answerMsg = '你想翻译的内容是：'.$content;
             break;
             case 'TQ':case 'tq':
-                          $weather = new weather();
-                          $answerMsg = $weather->getWeather($content);
+                $weather = new weather();
+                $answerMsg = $weather->getWeather($content);
 //            $answerMsg = $this->getTQYB($content);
             // $answerMsg = '你想查看天气预报的城市是：'.$content;
             break;
-            //            case 'XH':case 'xh':
-            //            $answerMsg = $this->getJoke();
-            //            break;
+                case 'XH':case 'xh':
+                $answerMsg = $this->getJoke();
+                break;
             default:
-                $answerMsg = '欢迎您关注我们的公众账号，目前可以提供“天气预报”、“在线翻译”和“讲笑话”功能，使用方法是：发送如：【TQ上海】查询上海未来3天天气，【FY你好你好】翻译“你好你好”，【笑话】获取一条小笑话。试试看吧！^_^';
+                $answerMsg = '欢迎!! 我们目前可以提供“天气预报”、“在线翻译”和“讲笑话”功能。发送如：【TQ上海】查询上海未来3天天气，【FY你好你好】翻译“你好你好”，【笑话】获取一条小笑话。试试看吧！^_^';
                 break;
         }
         return $answerMsg;
     }
 
     //拼接返回值的函数
-    public function getTQYB($content){
-        // $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-        if ($content=='') {
-            return '城市名称不能为空，请输入城市名称! ';
-        }
-        // $city_num = 101010100;
-        if (!city::getCityByName($content)) {
-            return '您输入的城市名称找不到啊，现在我还比较笨，请重新输入吧：如【TQ上海】';
-        }else{
-            $url = 'http://m.weather.com.cn/data/'.city::getCityByName($content).'.html';
-        }
-        $s = file_get_contents($url);
-        $arrayMsg = json_decode($s, true);
-        return $arrayMsg['weatherinfo']['city'].
-        '【今天】'.$arrayMsg['weatherinfo']['weather1'].'，温度：'.$arrayMsg['weatherinfo']['temp1'].','.$arrayMsg['weatherinfo']['wind1'].
-        '。未来三天预报：【明天】'.$arrayMsg['weatherinfo']['weather2'].'，温度：'.$arrayMsg['weatherinfo']['temp2'].','.$arrayMsg['weatherinfo']['wind2'].
-        '【后天】'.$arrayMsg['weatherinfo']['weather3'].'，温度：'.$arrayMsg['weatherinfo']['temp3'].','.$arrayMsg['weatherinfo']['wind3'].
-        '【大后天】'.$arrayMsg['weatherinfo']['weather4'].'，温度：'.$arrayMsg['weatherinfo']['temp4'].','.$arrayMsg['weatherinfo']['wind4'];
-    }
+//    public function getTQYB($content){
+//        // $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+//        if ($content=='') {
+//            return '城市名称不能为空，请输入城市名称! ';
+//        }
+//        // $city_num = 101010100;
+//        if (!city::getCityByName($content)) {
+//            return '您输入的城市名称找不到啊，现在我还比较笨，请重新输入吧：如【TQ上海】';
+//        }else{
+//            $url = 'http://m.weather.com.cn/data/'.city::getCityByName($content).'.html';
+//        }
+//        $s = file_get_contents($url);
+//        $arrayMsg = json_decode($s, true);
+//        return $arrayMsg['weatherinfo']['city'].
+//        '【今天】'.$arrayMsg['weatherinfo']['weather1'].'，温度：'.$arrayMsg['weatherinfo']['temp1'].','.$arrayMsg['weatherinfo']['wind1'].
+//        '。未来三天预报：【明天】'.$arrayMsg['weatherinfo']['weather2'].'，温度：'.$arrayMsg['weatherinfo']['temp2'].','.$arrayMsg['weatherinfo']['wind2'].
+//        '【后天】'.$arrayMsg['weatherinfo']['weather3'].'，温度：'.$arrayMsg['weatherinfo']['temp3'].','.$arrayMsg['weatherinfo']['wind3'].
+//        '【大后天】'.$arrayMsg['weatherinfo']['weather4'].'，温度：'.$arrayMsg['weatherinfo']['temp4'].','.$arrayMsg['weatherinfo']['wind4'];
+//    }
 
     public function getFY($content){
         $url = 'http://openapi.baidu.com/public/2.0/bmt/translate?client_id=ep6NCmBSGLSIOVCHfwEnAxjD&q='.$content.'&from=auto&to=auto';
@@ -149,15 +149,12 @@ class weixinCallbackApi
         // return $answerMsgArr['trans_result'][0]['src'];
     }
 
-    //    public function getJoke(){
-    //        $jokeinfo = $this->joke->getRundomSingleJoke();
-    ////         return $jokeinfo;
-    ////         $title=$jokeinfo[0]['title'];
-    ////         $content=$jokeinfo[0]['content'];
-    ////         $title=iconv("ASCII","GBK", $jokeinfo[0]['title']);
-    ////         $content=iconv("ASCII", "UTF-8", $jokeinfo[0]['content']);
-    //        return "【".$jokeinfo[0]['title']."】".$jokeinfo[0]['content'];
-    //    }
+    public function getJoke(){
+        $mdlJoke = new db();
+        $jokeInfo = $mdlJoke->getRow();
+        $answerMsg = "[{$jokeInfo['joke_type']}]".$jokeInfo['joke_content'];
+        return $answerMsg;
+    }
 
 
 }
