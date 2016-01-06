@@ -16,9 +16,9 @@ class db{
             die('something wrong with mysql');
         }else {
             $this->connect = $conn;
-            mysql_query("SET NAMES UTF8");
-            mysql_query("set character_set_client=utf8");
-            mysql_query("set character_set_results=utf8");
+            mysql_query("SET NAMES GBK");
+            mysql_query("set character_set_client=gbk");
+            mysql_query("set character_set_results=gbk");
         }
     }
 
@@ -114,6 +114,6 @@ class db{
 }
 
 //调试代码
-$db = new db();
-$row = $db->getRow();
-print_r($row);
+//$db = new db();
+//$row = $db->getRow();
+//print_r($row);
