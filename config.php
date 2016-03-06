@@ -28,3 +28,8 @@ define('DB_HOST', '127.0.0.1');
 define('DB_NAME', 'weixin');
 define('DB_USER', 'root');
 define('DB_PASSWORD', 'passw0rd');
+
+//BAIDU api
+define('BAIDU_API_KEY','5c3602f8376fce34c4ac25382454200f');
+define('TULING_KEY','0d8b8b1451f6ad5537eef9a0ad5ba170');
+define('TULING_USER_ID','test');
